@@ -1,3 +1,3 @@
-import { generateTemporaryData } from './data/temporary-data-helper.js';
+import { renderPictures } from './utils/picture-render.js';
 
-generateTemporaryData();
+renderPictures();
