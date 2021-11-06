@@ -1,23 +1,24 @@
+/* eslint-disable prefer-const */
 import { generateTemporaryData } from '../data/temporary-data-helper.js';
 
-const TEMPLATE = document.querySelector('#picture').content;
-const PICTURE_TEMPLATE = TEMPLATE.querySelector('a');
-const PICTURES = document.querySelector('.pictures');
+let template = document.querySelector('#picture').content;
+let pictureTemplate = template.querySelector('a');
+let pictures = document.querySelector('.pictures');
 
-const FRAGMENT = document.createDocumentFragment();
+let fragment = document.createDocumentFragment();
 
-const TEMPORARY_DATA = generateTemporaryData();
+const temporaryData = generateTemporaryData();
 
 function renderPictures() {
-  TEMPORARY_DATA.forEach((templatePic) => {
-    const picture = PICTURE_TEMPLATE.cloneNode(true);
+  temporaryData.forEach((templatePic) => {
+    const picture = pictureTemplate.cloneNode(true);
     picture.querySelector('.picture__img').src = templatePic.url;
     picture.querySelector('.picture__likes').textContent = templatePic.likes;
     picture.querySelector('.picture__comments').textContent = templatePic.comments.length;
-    FRAGMENT.appendChild(picture);
+    fragment.appendChild(picture);
   });
 
-  PICTURES.appendChild(FRAGMENT);
+  pictures.appendChild(fragment);
 }
 
 export { renderPictures };
