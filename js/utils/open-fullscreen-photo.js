@@ -1,11 +1,11 @@
 /* eslint-disable no-use-before-define */
 /* eslint-disable prefer-const */
-const renderComment = (comment) => {
-  let commentTemplate = document.querySelector('.big-picture .social__comment').cloneNode(true);
-  commentTemplate.querySelector('.social__picture').src = comment.avatar;
-  commentTemplate.querySelector('.social__picture').alt = comment.name;
-  commentTemplate.querySelector('.social__text').textContent = comment.message;
-  document.querySelector('.big-picture .social__comments').append(commentTemplate);
+const renderComment = (commentData, commentTemplate) => {
+  let comment = commentTemplate.cloneNode(true);
+  comment.querySelector('.social__picture').src = commentData.avatar;
+  comment.querySelector('.social__picture').alt = commentData.name;
+  comment.querySelector('.social__text').textContent = commentData.message;
+  document.querySelector('.big-picture .social__comments').append(comment);
 };
 
 const renderFullscreenPhoto = (photo) => {
@@ -18,8 +18,10 @@ const renderFullscreenPhoto = (photo) => {
   bigPicture.querySelector('.social__comment-count').classList.add('hidden');
   document.querySelector('body').classList.add('modal-open');
 
+  let commentTemplate = document.querySelector('.big-picture .social__comment');
+  clearComments();
   photo.comments.forEach((comment) => {
-    renderComment(comment);
+    renderComment(comment, commentTemplate);
   });
 
   bigPicture.classList.remove('hidden');
@@ -40,7 +42,6 @@ const clearComments = () => {
 function closeBigPicture() {
   document.querySelector('.big-picture').classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
-  clearComments();
 
   document.removeEventListener('keydown', onFullscreenEscKeydown);
 }
