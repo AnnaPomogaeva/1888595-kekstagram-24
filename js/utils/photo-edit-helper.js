@@ -12,7 +12,11 @@ const onEffectChange = () => {
 effectInputs.forEach((element) => {
   element.addEventListener('change', onEffectChange);
 });
-
+const clearPhotoEffects = () => {
+  imgPreview.classList = '';
+  imgPreview.style.webkitFilter = '';
+  imgPreview.style.filter = '';
+};
 const updateCssFilterStyle = (value) => {
   let effect = form.querySelector('input[name="effect"]:checked').value;
   value = parseInt(value, 10);
@@ -47,6 +51,9 @@ const updateCssFilterStyle = (value) => {
       imgPreview.style.webkitFilter = `brightness(${(value * 3 / 100).toFixed(1)})`;
       imgPreview.style.filter = `brightness(${(value * 3 / 100).toFixed(1)})`;
       break;
+    case 'none':
+      clearPhotoEffects();
+      break;
     default:
       imgPreview.classList = '';
       break;
@@ -64,8 +71,11 @@ const createSlider = () => {
       'min': [0],
       'max': [100],
     },
+    connect: 'lower',
   });
 
   slider.noUiSlider.on('update', onChangeSliderValue);
 };
 createSlider();
+
+export { clearPhotoEffects };
