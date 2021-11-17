@@ -1,15 +1,13 @@
 /* eslint-disable id-length */
-/* eslint-disable no-unused-vars */
-/* eslint-disable prefer-const */
-let form = document.querySelector('.img-upload__form');
-let hashTagInput = form.querySelector('.text__hashtags');
-let description = form.querySelector('.text__description');
-let hashTagRegexp = /(^#[A-Za-zА-Яа-яЁё0-9]{1,19})$/;
+const form = document.querySelector('.img-upload__form');
+const hashTagInput = form.querySelector('.text__hashtags');
+const description = form.querySelector('.text__description');
+const hashTagRegexp = /(^#[A-Za-zА-Яа-яЁё0-9]{1,19})$/;
 
 const checkDouble = (hashTags) => {
   let errorMessage = '';
-  let count = {};
-  let doubleHashTags = [];
+  const count = {};
+  const doubleHashTags = [];
 
   hashTags.forEach((i) => {
     count[i] = (count[i] || 0) + 1;
@@ -57,14 +55,14 @@ const removeRedBorder = (element) => {
 };
 
 const onHashTagInputChange = () => {
-  let hashTags = hashTagInput.value.split(' ');
-  let lowerCasehashTags = [];
+  const hashTags = hashTagInput.value.split(' ');
+  const lowerCasehashTags = [];
 
   hashTags.forEach((hashTag) => {
     lowerCasehashTags.push(hashTag.toLowerCase());
   });
 
-  let errorMessage = validateHashTags(lowerCasehashTags);
+  const errorMessage = validateHashTags(lowerCasehashTags);
   errorMessage.length !== 0
     ? setRedBorder(hashTagInput)
     : removeRedBorder(hashTagInput);

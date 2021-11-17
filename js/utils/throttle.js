@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 // Функция взята из интернета и доработана
 // Источник - https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore#_throttle
 
@@ -11,7 +10,7 @@ function throttle(callback, delayBetweenFrames) {
     // Получаем текущую дату в миллисекундах,
     // чтобы можно было в дальнейшем
     // вычислять разницу между кадрами
-    let now = new Date();
+    const now = new Date();
 
     // Если время между кадрами больше задержки,
     // вызываем наш колбэк и перезаписываем lastTime
