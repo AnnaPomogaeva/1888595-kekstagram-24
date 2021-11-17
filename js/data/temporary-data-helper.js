@@ -37,8 +37,7 @@ function getname() {
 function getComments() {
   const commentCount = getRandomInRange(1, 10);
 
-  // eslint-disable-next-line prefer-const
-  let comments = [];
+  const comments = [];
   for (let i = 0; i < commentCount; i++) {
     const comment = {
       id: 1 + i,
@@ -54,8 +53,7 @@ function getComments() {
 }
 
 function generateTemporaryData() {
-  // eslint-disable-next-line prefer-const
-  let tempData = [];
+  const tempData = [];
 
   for (let i = 0; i < 25; i++) {
     const tempObject = {

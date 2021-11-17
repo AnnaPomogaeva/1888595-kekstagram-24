@@ -1,12 +1,10 @@
 /* eslint-disable id-length */
 /* eslint-disable indent */
 /* eslint-disable no-use-before-define */
-/* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
 import { clearPhotoEffects } from './photo-edit-helper.js';
 import './form-validation-helper.js';
 
-let form = document.querySelector('.img-upload__form');
+const form = document.querySelector('.img-upload__form');
 
 const onFullscreenEscKeydown = (evt) => {
   if (evt.key === 'Escape') {
@@ -49,9 +47,9 @@ form.querySelector('.img-upload__input').addEventListener('change', (evt) => {
 });
 form.querySelector('.img-upload__cancel').addEventListener('click', closeForm);
 
-const onSmallerScaleClick = (evt) => {
-  let scaleVal = document.querySelector('.scale__control--value').value;
-  let smallerScaleVal = parseInt(scaleVal, 10) - 25;
+const onSmallerScaleClick = () => {
+  const scaleVal = document.querySelector('.scale__control--value').value;
+  const smallerScaleVal = parseInt(scaleVal, 10) - 25;
   if (smallerScaleVal < 25) {
     return;
   }
@@ -61,9 +59,9 @@ const onSmallerScaleClick = (evt) => {
 };
 form.querySelector('.scale__control--smaller').addEventListener('click', onSmallerScaleClick);
 
-const onBiggerScaleClick = (evt) => {
-  let scaleVal = document.querySelector('.scale__control--value').value;
-  let biggerScaleVal = parseInt(scaleVal, 10) + 25;
+const onBiggerScaleClick = () => {
+  const scaleVal = document.querySelector('.scale__control--value').value;
+  const biggerScaleVal = parseInt(scaleVal, 10) + 25;
   if (biggerScaleVal > 100) {
     return;
   }
@@ -141,7 +139,7 @@ const showFailMessage = () => {
 const setUserFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    let formData = new FormData(evt.target);
+    const formData = new FormData(evt.target);
 
     fetch(
       'https://24.javascript.pages.academy/kekstagram',

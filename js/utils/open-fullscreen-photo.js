@@ -1,17 +1,16 @@
 /* eslint-disable id-length */
 /* eslint-disable no-use-before-define */
-/* eslint-disable prefer-const */
 
 let commentaryArray = [];
-let commentCount = 5;
-let commentTemplate = document.querySelector('.big-picture .social__comment');
+const commentCount = 5;
+const commentTemplate = document.querySelector('.big-picture .social__comment');
 
 const updateCommentsCount = () => {
-  let renderedCommentsCount = document.querySelectorAll('.big-picture .social__comment').length;
+  const renderedCommentsCount = document.querySelectorAll('.big-picture .social__comment').length;
   document.querySelector('.big-picture .downloaded-comments-count').innerText = renderedCommentsCount;
 };
 const showComments = (template) => {
-  let renderedComments = document.querySelectorAll('.big-picture .social__comment');
+  const renderedComments = document.querySelectorAll('.big-picture .social__comment');
 
   for (let i = renderedComments.length;
     i < renderedComments.length + commentCount;
@@ -32,7 +31,7 @@ const renderComments = (comments) => {
   showComments();
 };
 const renderComment = (commentData) => {
-  let comment = commentTemplate.cloneNode(true);
+  const comment = commentTemplate.cloneNode(true);
   comment.querySelector('.social__picture').src = commentData.avatar;
   comment.querySelector('.social__picture').alt = commentData.name;
   comment.querySelector('.social__text').textContent = commentData.message;
@@ -40,7 +39,7 @@ const renderComment = (commentData) => {
 };
 
 const renderFullscreenPhoto = (photo) => {
-  let bigPicture = document.querySelector('.big-picture');
+  const bigPicture = document.querySelector('.big-picture');
   bigPicture.querySelector('.big-picture__img img').src = photo.url;
   bigPicture.querySelector('.big-picture__social .likes-count').textContent = photo.likes;
   bigPicture.querySelector('.big-picture__social .comments-count').textContent = photo.comments.length;

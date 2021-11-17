@@ -1,18 +1,17 @@
-/* eslint-disable prefer-const */
 import { openFullscreenPhoto } from './open-fullscreen-photo.js';
 import { getPicturesData } from '../data/data-helper.js';
 
-let template = document.querySelector('#picture').content;
-let pictureTemplate = template.querySelector('a');
-let pictures = document.querySelector('.pictures');
+const template = document.querySelector('#picture').content;
+const pictureTemplate = template.querySelector('a');
+const pictures = document.querySelector('.pictures');
 
-let fragment = document.createDocumentFragment();
+const fragment = document.createDocumentFragment();
 
 const onErrorButtonClick = () => {
   document.querySelector('.error').remove();
 };
-let onPicturesGetError = (error) => {
-  let errorTemplate = document.querySelector('#error').content;
+const onPicturesGetError = (error) => {
+  const errorTemplate = document.querySelector('#error').content;
   const errorElement = errorTemplate.cloneNode(true);
   errorElement.querySelector('.error__title').textContent = error.message;
   errorElement.querySelector('.error__button').textContent = 'закрыть';
@@ -21,7 +20,7 @@ let onPicturesGetError = (error) => {
 
 };
 
-let onPicturesReady = (picturesData) => {
+const onPicturesReady = (picturesData) => {
   picturesData.forEach((templatePic) => {
     const picture = pictureTemplate.cloneNode(true);
     picture.querySelector('.picture__img').src = templatePic.url;
@@ -36,7 +35,7 @@ let onPicturesReady = (picturesData) => {
   pictures.appendChild(fragment);
 };
 
-let renderPictures = () => {
+const renderPictures = () => {
   getPicturesData(onPicturesReady, onPicturesGetError);
 };
 
