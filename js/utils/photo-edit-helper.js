@@ -1,10 +1,8 @@
 /* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
-/* eslint-disable prefer-const */
-let form = document.querySelector('.img-upload__form');
-let imgPreview = form.querySelector('.img-upload__preview img');
-let effectInputs = form.querySelectorAll('input[name="effect"]');
-let slider = form.querySelector('.effect-level__slider');
+const form = document.querySelector('.img-upload__form');
+const imgPreview = form.querySelector('.img-upload__preview img');
+const effectInputs = form.querySelectorAll('input[name="effect"]');
+const slider = form.querySelector('.effect-level__slider');
 
 const onEffectChange = () => {
   slider.noUiSlider.set(100);
@@ -12,9 +10,13 @@ const onEffectChange = () => {
 effectInputs.forEach((element) => {
   element.addEventListener('change', onEffectChange);
 });
-
+const clearPhotoEffects = () => {
+  imgPreview.classList = '';
+  imgPreview.style.webkitFilter = '';
+  imgPreview.style.filter = '';
+};
 const updateCssFilterStyle = (value) => {
-  let effect = form.querySelector('input[name="effect"]:checked').value;
+  const effect = form.querySelector('input[name="effect"]:checked').value;
   value = parseInt(value, 10);
   switch (effect) {
     case 'chrome':
@@ -47,13 +49,16 @@ const updateCssFilterStyle = (value) => {
       imgPreview.style.webkitFilter = `brightness(${(value * 3 / 100).toFixed(1)})`;
       imgPreview.style.filter = `brightness(${(value * 3 / 100).toFixed(1)})`;
       break;
+    case 'none':
+      clearPhotoEffects();
+      break;
     default:
       imgPreview.classList = '';
       break;
   }
 };
 const onChangeSliderValue = () => {
-  let value = slider.noUiSlider.get();
+  const value = slider.noUiSlider.get();
   form.querySelector('.effect-level__value').value = value;
   updateCssFilterStyle(value);
 };
@@ -64,8 +69,11 @@ const createSlider = () => {
       'min': [0],
       'max': [100],
     },
+    connect: 'lower',
   });
 
   slider.noUiSlider.on('update', onChangeSliderValue);
 };
 createSlider();
+
+export { clearPhotoEffects };
