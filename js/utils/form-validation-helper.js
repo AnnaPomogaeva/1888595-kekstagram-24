@@ -47,6 +47,15 @@ const validateHashTags = (hashTags) => {
   return errorMessage;
 };
 
+const setRedBorder = (element) => {
+  element.style.borderWidth = '2px';
+  element.style.borderColor = 'red';
+};
+const removeRedBorder = (element) => {
+  element.style.borderWidth = '';
+  element.style.borderColor = '';
+};
+
 const onHashTagInputChange = () => {
   let hashTags = hashTagInput.value.split(' ');
   let lowerCasehashTags = [];
@@ -55,11 +64,18 @@ const onHashTagInputChange = () => {
     lowerCasehashTags.push(hashTag.toLowerCase());
   });
 
-  hashTagInput.setCustomValidity(validateHashTags(lowerCasehashTags));
+  let errorMessage = validateHashTags(lowerCasehashTags);
+  errorMessage.length !== 0
+    ? setRedBorder(hashTagInput)
+    : removeRedBorder(hashTagInput);
+  hashTagInput.setCustomValidity(errorMessage);
 };
 const onDescriptionChange = () => {
   if (description.value.length > 140) {
+    setRedBorder(description);
     description.setCustomValidity('Длина описания должна быть не больше 140 символов');
+  } else {
+    removeRedBorder(description);
   }
 };
 description.addEventListener('change', onDescriptionChange);
