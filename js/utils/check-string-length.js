@@ -2,4 +2,4 @@ function checkStringLength(string, length) {
   return string.length <= length;
 }
 
-checkStringLength('', 0);
+export {checkStringLength};

@@ -1,10 +1,15 @@
-/* eslint-disable id-length */
-/* eslint-disable indent */
-/* eslint-disable no-use-before-define */
 import { clearPhotoEffects } from './photo-edit-helper.js';
 import './form-validation-helper.js';
 
+const MIN_SCALE = 25;
+const MAX_SCALE = 100;
+const SCALE_STEP = 25;
+
 const form = document.querySelector('.img-upload__form');
+const imageElement = document.querySelector('.img-upload__preview img');
+const imageUploadOverlayElement = form.querySelector('.img-upload__overlay');
+const bodyElement = document.querySelector('body');
+const scaleValueElement = document.querySelector('.scale__control--value');
 
 const onFullscreenEscKeydown = (evt) => {
   if (evt.key === 'Escape') {
@@ -22,24 +27,22 @@ const showPicturePrewiev = (inputElement) => {
   if (inputElement.files.length === 0) {
     return;
   }
-  document.querySelector('.img-upload__preview img').src = window.URL.createObjectURL(inputElement.files[0]);
+  imageElement.src = window.URL.createObjectURL(inputElement.files[0]);
 };
 const openForm = (evt) => {
-  form.querySelector('.img-upload__overlay').classList.remove('hidden');
-  document.querySelector('body').classList.add('modal-open');
-  document.querySelector('.scale__control--value').value = '100%';
-  document.querySelector('.img-upload__preview img').style.transform = 'scale(1)';
+  imageUploadOverlayElement.classList.remove('hidden');
+  bodyElement.classList.add('modal-open');
+  scaleValueElement.value = '100%';
+  imageElement.style.transform = 'scale(1)';
   document.addEventListener('keydown', onFullscreenEscKeydown);
   showPicturePrewiev(evt.target);
 };
 const closeForm = () => {
-  form.querySelector('.img-upload__overlay').classList.add('hidden');
-  document.querySelector('body').classList.remove('modal-open');
-  form.querySelector('.img-upload__input').value = '';
+  imageUploadOverlayElement.classList.add('hidden');
+  bodyElement.classList.remove('modal-open');
+  form.reset();
   document.removeEventListener('keydown', onFullscreenEscKeydown);
-  document.querySelector('.scale__control--value').value = '100%';
-  form.querySelector('.text__hashtags').value = '';
-  form.querySelector('.text__description').value = '';
+  scaleValueElement.value = '100%';
   clearPhotoEffects();
 };
 form.querySelector('.img-upload__input').addEventListener('change', (evt) => {
@@ -48,32 +51,31 @@ form.querySelector('.img-upload__input').addEventListener('change', (evt) => {
 form.querySelector('.img-upload__cancel').addEventListener('click', closeForm);
 
 const onSmallerScaleClick = () => {
-  const scaleVal = document.querySelector('.scale__control--value').value;
-  const smallerScaleVal = parseInt(scaleVal, 10) - 25;
-  if (smallerScaleVal < 25) {
+  const scaleVal = scaleValueElement.value;
+  const smallerScaleVal = parseInt(scaleVal, 10) - SCALE_STEP;
+  if (smallerScaleVal < MIN_SCALE) {
     return;
   }
 
-  document.querySelector('.img-upload__preview img').style.transform = `scale(${smallerScaleVal / 100})`;
-  document.querySelector('.scale__control--value').value = `${smallerScaleVal}%`;
+  imageElement.style.transform = `scale(${smallerScaleVal / 100})`;
+  scaleValueElement.value = `${smallerScaleVal}%`;
 };
 form.querySelector('.scale__control--smaller').addEventListener('click', onSmallerScaleClick);
 
 const onBiggerScaleClick = () => {
-  const scaleVal = document.querySelector('.scale__control--value').value;
-  const biggerScaleVal = parseInt(scaleVal, 10) + 25;
-  if (biggerScaleVal > 100) {
+  const scaleVal = scaleValueElement.value;
+  const biggerScaleVal = parseInt(scaleVal, 10) + SCALE_STEP;
+  if (biggerScaleVal > MAX_SCALE) {
     return;
   }
 
-  document.querySelector('.img-upload__preview img').style.transform = `scale(${biggerScaleVal / 100})`;
-  document.querySelector('.scale__control--value').value = `${biggerScaleVal}%`;
+  imageElement.style.transform = `scale(${biggerScaleVal / 100})`;
+  scaleValueElement.value = `${biggerScaleVal}%`;
 };
 form.querySelector('.scale__control--bigger').addEventListener('click', onBiggerScaleClick);
 
 const closeSuccessMessage = () => {
-  const SuccessMessage = document.querySelector('.success');
-  SuccessMessage.remove();
+  document.querySelector('.success').remove();
   document.removeEventListener('keydown', onSuccessMessageEscKeydown);
   document.removeEventListener('click', onOuterSuccessMessageClick);
 };
@@ -101,7 +103,7 @@ const showSuccessMessage = () => {
   successMessage.querySelector('.success__button').addEventListener('click', onSuccessMessageButtonClick);
   document.addEventListener('click', onOuterSuccessMessageClick);
   document.addEventListener('keydown', onSuccessMessageEscKeydown);
-  document.querySelector('body').appendChild(successMessage);
+  bodyElement.appendChild(successMessage);
 };
 
 const closeFailMessage = () => {
@@ -133,7 +135,7 @@ const showFailMessage = () => {
   failMessage.querySelector('.error__button').addEventListener('click', onFailMessageButtonClick);
   document.addEventListener('click', onOuterFailPopupClick);
   document.addEventListener('keydown', onFailMessageEscKeydown);
-  document.querySelector('body').appendChild(failMessage);
+  bodyElement.appendChild(failMessage);
 };
 
 const setUserFormSubmit = () => {
@@ -145,7 +147,7 @@ const setUserFormSubmit = () => {
       'https://24.javascript.pages.academy/kekstagram',
       {
         method: 'POST',
-        formData,
+        body: formData,
       },
     )
       .then((response) => {

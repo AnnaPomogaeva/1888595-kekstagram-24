@@ -1,4 +1,8 @@
-/* eslint-disable id-length */
+import {checkStringLength} from './check-string-length.js'
+
+const HASHTAG_MAX_LENGTH = 20;
+const DESCRIPTION_MAX_LENGTH = 140;
+
 const form = document.querySelector('.img-upload__form');
 const hashTagInput = form.querySelector('.text__hashtags');
 const description = form.querySelector('.text__description');
@@ -31,13 +35,13 @@ const validateHashTags = (hashTags) => {
   }
 
   hashTags.forEach((hashTag) => {
-    hashTag.search(hashTagRegexp) === -1
-      ? errorMessage += `Неверный хэштег ${hashTag}. `
-      : errorMessage += '';
+    errorMessage += hashTag.search(hashTagRegexp) === -1
+      ? `Неверный хэштег ${hashTag}. `
+      : '';
 
-    hashTag.length > 20
-      ? errorMessage += `Хэштег ${hashTag} больше 20 символов. `
-      : errorMessage += '';
+    errorMessage += checkStringLength(hashTag, HASHTAG_MAX_LENGTH)
+      ? ''
+      : `Хэштег ${hashTag} больше ${HASHTAG_MAX_LENGTH} символов. `;
   });
 
   errorMessage += checkDouble(hashTags);
@@ -69,11 +73,11 @@ const onHashTagInputChange = () => {
   hashTagInput.setCustomValidity(errorMessage);
 };
 const onDescriptionChange = () => {
-  if (description.value.length > 140) {
-    setRedBorder(description);
-    description.setCustomValidity('Длина описания должна быть не больше 140 символов');
-  } else {
+  if (checkStringLength(description.value, DESCRIPTION_MAX_LENGTH)) {
     removeRedBorder(description);
+  } else {
+    setRedBorder(description);
+    description.setCustomValidity(`Длина описания должна быть не больше ${DESCRIPTION_MAX_LENGTH} символов`);
   }
 };
 description.addEventListener('change', onDescriptionChange);
