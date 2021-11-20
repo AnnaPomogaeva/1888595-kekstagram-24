@@ -1,10 +1,15 @@
-/* eslint-disable no-undef */
 const form = document.querySelector('.img-upload__form');
 const imgPreview = form.querySelector('.img-upload__preview img');
 const effectInputs = form.querySelectorAll('input[name="effect"]');
 const slider = form.querySelector('.effect-level__slider');
 
 const onEffectChange = () => {
+  const effect = form.querySelector('input[name="effect"]:checked').value;
+  if (effect === 'none') {
+    slider.classList.add('hidden');
+  } else {
+    slider.classList.remove('hidden');
+  }
   slider.noUiSlider.set(100);
 };
 effectInputs.forEach((element) => {
@@ -14,6 +19,7 @@ const clearPhotoEffects = () => {
   imgPreview.classList = '';
   imgPreview.style.webkitFilter = '';
   imgPreview.style.filter = '';
+  slider.classList.add('hidden');
 };
 const updateCssFilterStyle = (value) => {
   const effect = form.querySelector('input[name="effect"]:checked').value;
@@ -73,6 +79,7 @@ const createSlider = () => {
   });
 
   slider.noUiSlider.on('update', onChangeSliderValue);
+  slider.classList.add('hidden');
 };
 createSlider();
 

@@ -1,28 +1,28 @@
-/* eslint-disable id-length */
-/* eslint-disable no-use-before-define */
+const COMMENT_COUNT = 5;
 
 let commentaryArray = [];
-const commentCount = 5;
 const commentTemplate = document.querySelector('.big-picture .social__comment');
+const socialCommentsElement = document.querySelector('.big-picture .social__comments');
+const commentsLoaderButtonElement = document.querySelector('.big-picture .comments-loader');
+const bigPictureElement = document.querySelector('.big-picture');
 
-const updateCommentsCount = () => {
-  const renderedCommentsCount = document.querySelectorAll('.big-picture .social__comment').length;
-  document.querySelector('.big-picture .downloaded-comments-count').innerText = renderedCommentsCount;
+const updateCommentsCount = (count) => {
+  document.querySelector('.big-picture .downloaded-comments-count').innerText = count;
 };
 const showComments = (template) => {
-  const renderedComments = document.querySelectorAll('.big-picture .social__comment');
+  const renderedComments = document.querySelectorAll('.big-picture .social__comment').length;
 
-  for (let i = renderedComments.length;
-    i < renderedComments.length + commentCount;
+  for (let i = renderedComments;
+    i < renderedComments + COMMENT_COUNT;
     i++) {
     const comment = commentaryArray[i];
     if (comment) {
       renderComment(comment, template);
+      updateCommentsCount(1 + i);
     } else {
-      document.querySelector('.big-picture .comments-loader').classList.add('hidden');
+      commentsLoaderButtonElement.classList.add('hidden');
     }
   }
-  updateCommentsCount();
 };
 
 const renderComments = (comments) => {
@@ -32,20 +32,21 @@ const renderComments = (comments) => {
 };
 const renderComment = (commentData) => {
   const comment = commentTemplate.cloneNode(true);
-  comment.querySelector('.social__picture').src = commentData.avatar;
-  comment.querySelector('.social__picture').alt = commentData.name;
+  let socialPictureElement = comment.querySelector('.social__picture');
+  socialPictureElement.src = commentData.avatar;
+  socialPictureElement.alt = commentData.name;
   comment.querySelector('.social__text').textContent = commentData.message;
-  document.querySelector('.big-picture .social__comments').append(comment);
+  socialCommentsElement.append(comment);
 };
 
 const renderFullscreenPhoto = (photo) => {
-  const bigPicture = document.querySelector('.big-picture');
+  const bigPicture = bigPictureElement;
   bigPicture.querySelector('.big-picture__img img').src = photo.url;
   bigPicture.querySelector('.big-picture__social .likes-count').textContent = photo.likes;
   bigPicture.querySelector('.big-picture__social .comments-count').textContent = photo.comments.length;
   bigPicture.querySelector('.big-picture__social .social__caption').textContent = photo.description;
   document.querySelector('body').classList.add('modal-open');
-  document.querySelector('.big-picture .comments-loader').classList.remove('hidden');
+  commentsLoaderButtonElement.classList.remove('hidden');
 
   clearComments();
   renderComments(photo.comments);
@@ -61,18 +62,18 @@ const onFullscreenEscKeydown = (evt) => {
 };
 
 const clearComments = () => {
-  document.querySelector('.big-picture .social__comments').innerHTML = '';
+  socialCommentsElement.innerHTML = '';
 };
 
 
 function closeBigPicture() {
-  document.querySelector('.big-picture').classList.add('hidden');
+  bigPictureElement.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
 
   document.removeEventListener('keydown', onFullscreenEscKeydown);
 }
 
-const openFullscreenPhoto = (evt, photo) => {
+const pictureThumbnailClickHandler = (evt, photo) => {
   evt.preventDefault();
   renderFullscreenPhoto(photo);
 
@@ -80,6 +81,6 @@ const openFullscreenPhoto = (evt, photo) => {
 };
 
 document.querySelector('.big-picture .big-picture__cancel').addEventListener('click', closeBigPicture);
-document.querySelector('.big-picture .comments-loader').addEventListener('click', showComments);
+commentsLoaderButtonElement.addEventListener('click', showComments);
 
-export { openFullscreenPhoto };
+export { pictureThumbnailClickHandler };
