@@ -1,6 +1,6 @@
 import { pictureThumbnailClickHandler } from './open-fullscreen-photo.js';
 import { getPicturesData } from '../data/data-helper.js';
-import { getRandomPositiveInteger } from './get-random-positive-integer.js'
+import { getRandomPositiveInteger } from './get-random-positive-integer.js';
 import { debounce } from './debounce.js';
 
 const template = document.querySelector('#picture').content;
@@ -60,10 +60,10 @@ const setDefaultFilter = () => {
   showPictures(picturesData);
 };
 const setRandomFilter = () => {
-  let notDoubleRandomIndexes = [];
-  let notDoublePictures = [];
+  const notDoubleRandomIndexes = [];
+  const notDoublePictures = [];
   while (notDoubleRandomIndexes.length < 10) {
-    let randomValue = getRandomPositiveInteger(0, picturesData.length - 1);
+    const randomValue = getRandomPositiveInteger(0, picturesData.length - 1);
     if (!notDoubleRandomIndexes.includes(randomValue)) {
       notDoubleRandomIndexes.push(randomValue);
       notDoublePictures.push(picturesData[randomValue]);
@@ -72,10 +72,8 @@ const setRandomFilter = () => {
   showPictures(notDoublePictures);
 };
 const setDiscussedFilter = () => {
-  let sortedPictures = picturesData.slice(0);
-  sortedPictures.sort((a,b) => {
-    return b.comments.length - a.comments.length;
-  })
+  const sortedPictures = picturesData.slice(0);
+  sortedPictures.sort((first, next) => next.comments.length - first.comments.length);
   showPictures(sortedPictures);
 };
 
@@ -83,9 +81,9 @@ const onPicturesReady = (data) => {
   picturesData = data;
   showPictures(picturesData);
   document.querySelector('.img-filters').classList.remove('img-filters--inactive');
-  defaultFilterButton.addEventListener('click', (evt) => {defaultFilterButtonClickHandler(evt, debounce(setDefaultFilter, 300))});
-  randomFilterButton.addEventListener('click', (evt) => {randomFilterButtonClickHandler(evt, debounce(setRandomFilter, 300))});
-  discussedFilterButton.addEventListener('click', (evt) => {discussFilterButtonClickHandler(evt, debounce(setDiscussedFilter, 300))});
+  defaultFilterButton.addEventListener('click', (evt) => {defaultFilterButtonClickHandler(evt, debounce(setDefaultFilter, 300));});
+  randomFilterButton.addEventListener('click', (evt) => {randomFilterButtonClickHandler(evt, debounce(setRandomFilter, 300));});
+  discussedFilterButton.addEventListener('click', (evt) => {discussFilterButtonClickHandler(evt, debounce(setDiscussedFilter, 300));});
 };
 
 const renderPictures = () => {

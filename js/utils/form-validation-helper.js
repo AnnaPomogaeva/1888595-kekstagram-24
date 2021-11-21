@@ -1,4 +1,4 @@
-import {checkStringLength} from './check-string-length.js'
+import {checkStringLength} from './check-string-length.js';
 
 const HASHTAG_MAX_LENGTH = 20;
 const DESCRIPTION_MAX_LENGTH = 140;
@@ -13,10 +13,10 @@ const checkDouble = (hashTags) => {
   const count = {};
   const doubleHashTags = [];
 
-  hashTags.forEach((i) => {
-    count[i] = (count[i] || 0) + 1;
-    if (count[i] >= 2 && !doubleHashTags.includes(i)) {
-      doubleHashTags.push(i);
+  hashTags.forEach((index) => {
+    count[index] = (count[index] || 0) + 1;
+    if (count[index] >= 2 && !doubleHashTags.includes(index)) {
+      doubleHashTags.push(index);
     }
   });
 
